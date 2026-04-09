@@ -2,8 +2,7 @@ import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 
 export const getPackage = (): Record<string, any> => {
-  const ROOT_PATH = process.cwd();
-  const packageJson = join(ROOT_PATH, 'package.json');
+  const packageJson = join(__dirname, '..', '..', 'package.json');
 
   if (!existsSync(packageJson)) {
     throw new Error('Missing package.json file in the root directory');

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { ProgramLineInterface } from '@alarife/commander';
 import { getPackage } from './utils/package';
 import { ADD_LICENSE_COMMAND, COPY_COMMAND, DECRYPT_COMMAND, ENCRYPT_COMMAND, GENERATE_KEY_COMMAND, NEW_PLUGIN_COMMAND } from './constants/commands';
