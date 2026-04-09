@@ -113,7 +113,28 @@ export const GENERATE_KEY_COMMAND: Command = {
 export const ENCRYPT_COMMAND: Command = {
   name: 'encrypt',
   description: 'Encrypt a variable with a key.',
-  path: join(__dirname, '../handlers/encrypt.js')
+  path: join(__dirname, '../handlers/encrypt.js'),
+  arguments: [
+    {
+      descriptiveType: 'value',
+      description: 'Value to encrypt',
+      required: true
+    },
+    {
+      descriptiveType: 'key-path',
+      description: 'Path to the public key',
+      required: true
+    }
+  ],
+  options: [
+    {
+      name: 'encoding',
+      description: 'Encoding for the encrypted value',
+      descriptiveType: 'encoding',
+      defaultValue: 'base64',
+      required: false
+    }
+  ]
 };
 
 export const DECRYPT_COMMAND: Command = {

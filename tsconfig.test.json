@@ -3,6 +3,7 @@
   "include": [
     "./src/**/*.ts", 
     "./test/**/*.ts",
+    "./types/**/*.pem"
   ],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
