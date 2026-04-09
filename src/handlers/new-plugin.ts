@@ -57,6 +57,12 @@ const CHANGES: ReplaceInstruction[] = [
       { key: 'AUTHOR_NAME', optKey: 'authorName' },
       { key: 'AUTHOR_EMAIL', optKey: 'authorEmail' }
     ]
+  },
+  {
+    file: '.github/workflows/build-and-publish.yml',
+    actions: [
+      { key: 'PACKAGE_NAME', optKey: 'packageName' }
+    ]
   }
 ];
 

@@ -53,6 +53,19 @@ const SKELETON_LICENSE = `Apache License 2.0
 Copyright 2026 {AUTHOR_NAME} <{AUTHOR_EMAIL}>
 `;
 
+const SKELETON_BUILD_AND_PUBLISH = `name: Build and Publish {PACKAGE_NAME}
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+`;
+
 const OPTIONS = {
   authorName: 'Jose Eduardo Soria Garcia',
   authorEmail: 'alarifeproyect@gmail.com',
@@ -68,12 +81,6 @@ const createEvent = (target: string, options: Record<string, any> = {}): any => 
   options: { ...OPTIONS, ...options }
 });
 
-const writeSkeleton = () => {
-  writeFileSync(join(MOCK_DIR, 'package.json'), SKELETON_PACKAGE_JSON, 'utf8');
-  writeFileSync(join(MOCK_DIR, 'README.md'), SKELETON_README, 'utf8');
-  writeFileSync(join(MOCK_DIR, 'LICENSE'), SKELETON_LICENSE, 'utf8');
-};
-
 describe('new-plugin handler', () => {
   beforeEach(() => {
     mock.method(child_process, 'execSync', (command: string) => {
@@ -85,6 +92,8 @@ describe('new-plugin handler', () => {
           writeFileSync(join(pluginDir, 'package.json'), SKELETON_PACKAGE_JSON, 'utf8');
           writeFileSync(join(pluginDir, 'README.md'), SKELETON_README, 'utf8');
           writeFileSync(join(pluginDir, 'LICENSE'), SKELETON_LICENSE, 'utf8');
+          mkdirSync(join(pluginDir, '.github', 'workflows'), { recursive: true });
+          writeFileSync(join(pluginDir, '.github', 'workflows', 'build-and-publish.yml'), SKELETON_BUILD_AND_PUBLISH, 'utf8');
         }
       }
     });
@@ -126,6 +135,16 @@ describe('new-plugin handler', () => {
 
     const content = readFileSync(join(MOCK_DIR, 'LICENSE'), 'utf8');
     assert.ok(content.includes(`${OPTIONS.authorName} <${OPTIONS.authorEmail}>`));
+
+    const match = content.match(/\{([^}\r\n]+)\}/);
+    assert.strictEqual(match, null, match ? `It was found: ${match[0]}` : undefined);
+  });
+
+  it('should replace all placeholders in build-and-publish.yml', () => {
+    newPlugin(createEvent(MOCK_DIR), null as any, null as any);
+
+    const content = readFileSync(join(MOCK_DIR, '.github', 'workflows', 'build-and-publish.yml'), 'utf8');
+    assert.ok(content.includes(OPTIONS.packageName));
 
     const match = content.match(/\{([^}\r\n]+)\}/);
     assert.strictEqual(match, null, match ? `It was found: ${match[0]}` : undefined);
