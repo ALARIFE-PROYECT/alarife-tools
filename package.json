@@ -1,0 +1,54 @@
+{
+  "name": "@alarife/tools",
+  "description": "Command line functionalities for plugin management in Alarife.",
+  "version": "0.1.0",
+  "author": "Soria Garcia, Jose Eduardo <alarifeproyect@gmail.com>",
+  "license": "Apache-2.0",
+  "private": false,
+  "bin": {
+    "alarife": "./lib/index.js"
+  },
+  "type": "commonjs",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.js",
+      "types": "./lib/index.d.ts"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./lib/index.d.ts"
+      ]
+    }
+  },
+  "keywords": [
+    "alarife"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ALARIFE-PROYECT/alarife-tools.git"
+  },
+  "homepage": "https://github.com/ALARIFE-PROYECT/alarife-tools#readme",
+  "bugs": {
+    "url": "https://github.com/ALARIFE-PROYECT/alarife-tools/issues"
+  },
+  "scripts": {
+    "build": "npx tsc --project tsconfig.build.json",
+    "test": "npx tsc --project tsconfig.test.json && node --test \"dist/test/**/*.test.js\""
+  },
+  "dependencies": {
+    "@alarife/commander": "^0.3.0",
+    "tslib": "~2.8"
+  },
+  "devDependencies": {
+    "@types/node": "~24",
+    "typescript": "~6.0"
+  }
+}
