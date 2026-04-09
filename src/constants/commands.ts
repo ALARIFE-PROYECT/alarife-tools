@@ -140,7 +140,28 @@ export const ENCRYPT_COMMAND: Command = {
 export const DECRYPT_COMMAND: Command = {
   name: 'decrypt',
   description: 'Decrypt a variable with a key.',
-  path: join(__dirname, '../handlers/decrypt.js')
+  path: join(__dirname, '../handlers/decrypt.js'),
+  arguments: [
+    {
+      description: 'Encrypted value to decrypt',
+      required: true,
+      descriptiveType: 'value'
+    },
+    {
+      description: 'Path to the private key file',
+      required: true,
+      descriptiveType: 'key-path'
+    }
+  ],
+  options: [
+    {
+      name: 'encoding',
+      description: 'Input encoding of the encrypted value',
+      descriptiveType: 'encoding',
+      defaultValue: 'base64',
+      required: false
+    }
+  ]
 };
 
 export const NEW_PLUGIN_COMMAND: Command = {
