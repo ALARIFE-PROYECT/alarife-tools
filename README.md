@@ -41,7 +41,7 @@ npm install @alarife/tools --save-dev
 Adds a license header to all matching files in a directory. Files that already contain a license header are skipped.
 
 ```bash
-alarife add-license ./src \
+alarife-tools add-license ./src \
   --extensions ts js \
   --project-name=@alarife/tools \
   --project-author="Soria Garcia Jose Eduardo" \
@@ -63,7 +63,7 @@ alarife add-license ./src \
 Copies files or directories from a source path to a target path.
 
 ```bash
-alarife copy ./src ./dist --deep
+alarife-tools copy ./src ./dist --deep
 ```
 
 | Parameter | Type | Required | Default | Description |
@@ -79,7 +79,7 @@ alarife copy ./src ./dist --deep
 Generates a cryptographic key pair and saves the private key to the specified path. The public key is printed to stdout.
 
 ```bash
-alarife generate-key ./keys/private.pem \
+alarife-tools generate-key ./keys/private.pem \
   --key-type=ed25519 \
   --key-format=pem
 ```
@@ -99,7 +99,7 @@ alarife generate-key ./keys/private.pem \
 Encrypts a value using a public key. The output is prefixed with `{cipher}`.
 
 ```bash
-alarife encrypt "my-secret-value" ./keys/public.pem --encoding=base64
+alarife-tools encrypt "my-secret-value" ./keys/public.pem --encoding=base64
 ```
 
 | Parameter | Type | Required | Default | Description |
@@ -115,7 +115,7 @@ alarife encrypt "my-secret-value" ./keys/public.pem --encoding=base64
 Decrypts a `{cipher}` prefixed value using a private key.
 
 ```bash
-alarife decrypt "{cipher}encrypted-value" ./keys/private.pem --encoding=base64
+alarife-tools decrypt "{cipher}encrypted-value" ./keys/private.pem --encoding=base64
 ```
 
 | Parameter | Type | Required | Default | Description |
@@ -131,7 +131,7 @@ alarife decrypt "{cipher}encrypted-value" ./keys/private.pem --encoding=base64
 Scaffolds a new Alarife plugin from the official skeleton repository.
 
 ```bash
-alarife new-plugin ./my-plugin \
+alarife-tools new-plugin ./my-plugin \
   --author-name="Soria Garcia Jose Eduardo" \
   --author-email="alarifeproyect@gmail.com" \
   --library-name=alarife-my-plugin \

@@ -1,12 +1,12 @@
 {
   "name": "@alarife/tools",
   "description": "Command line functionalities for plugin management in Alarife.",
-  "version": "0.5.1",
+  "version": "1.0.0",
   "author": "Soria Garcia, Jose Eduardo <alarifeproyect@gmail.com>",
   "license": "Apache-2.0",
   "private": false,
   "bin": {
-    "alarife": "./lib/index.js"
+    "alarife-tools": "./lib/index.js"
   },
   "type": "commonjs",
   "main": "./lib/index.js",
