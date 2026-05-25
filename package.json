@@ -1,7 +1,7 @@
 {
   "name": "@alarife/tools",
   "description": "Command line functionalities for plugin management in Alarife.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Soria Garcia, Jose Eduardo <alarifeproyect@gmail.com>",
   "license": "Apache-2.0",
   "private": false,
