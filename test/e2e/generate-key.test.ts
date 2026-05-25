@@ -8,7 +8,8 @@ import { mkdirSync } from 'node:fs';
 const dir = join(__dirname, '..', 'mock', 'generate-key');
 mkdirSync(dir, { recursive: true });
 
-const OUTPUT_FILE = join(__dirname, '..', 'mock', 'generate-key', 'test-key.pem');
+const TARGET_PATH = join(__dirname, '..', 'mock', 'generate-key');
+const OUTPUT_FILE = join(TARGET_PATH, 'private.pem');
 
 const createEvent = (path: string, options: Record<string, any> = {}): any => ({
   args: [path],
@@ -29,7 +30,7 @@ describe('generate-key handler', () => {
   });
 
   it('should generate an RSA private key file in PEM format', () => {
-    generateKey(createEvent(OUTPUT_FILE), null as any, null as any);
+    generateKey(createEvent(TARGET_PATH), null as any, null as any);
 
     assert.ok(existsSync(OUTPUT_FILE));
     const content = readFileSync(OUTPUT_FILE, 'utf8');
@@ -38,7 +39,7 @@ describe('generate-key handler', () => {
   });
 
   it('should generate an Ed25519 key pair', () => {
-    generateKey(createEvent(OUTPUT_FILE, { keyType: 'ed25519' }), null as any, null as any);
+    generateKey(createEvent(TARGET_PATH, { keyType: 'ed25519' }), null as any, null as any);
 
     assert.ok(existsSync(OUTPUT_FILE));
     const content = readFileSync(OUTPUT_FILE, 'utf8');
@@ -46,7 +47,7 @@ describe('generate-key handler', () => {
   });
 
   it('should write the file with restrictive permissions (0o600)', () => {
-    generateKey(createEvent(OUTPUT_FILE), null as any, null as any);
+    generateKey(createEvent(TARGET_PATH), null as any, null as any);
 
     const stats = statSync(OUTPUT_FILE);
     const mode = stats.mode & 0o777;
@@ -55,7 +56,7 @@ describe('generate-key handler', () => {
   });
 
   it('should write only the private key to the file, not the public key', () => {
-    generateKey(createEvent(OUTPUT_FILE), null as any, null as any);
+    generateKey(createEvent(TARGET_PATH), null as any, null as any);
 
     const content = readFileSync(OUTPUT_FILE, 'utf8');
     assert.ok(!content.includes('-----BEGIN PUBLIC KEY-----'));

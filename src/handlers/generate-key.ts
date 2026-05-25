@@ -3,11 +3,13 @@ import { generateKeyPairSync } from 'crypto';
 import { writeFileSync } from 'fs';
 import { resolve } from 'path';
 
+const PRIVATE_KEY_NAME = 'private.pem';
+
 export default (event: CommandEvent, command: CommanderCommand, commandConfig: Command) => {
   const [path] = event.args;
   const { keyType, privateExportType, publicExportType, keyFormat } = event.options;
 
-  const fullPath = resolve(path);
+  const fullPath = resolve(path, PRIVATE_KEY_NAME);
 
   const { publicKey, privateKey } = generateKeyPairSync(keyType);
 
