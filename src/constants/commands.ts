@@ -87,6 +87,13 @@ export const GENERATE_KEY_COMMAND: Command = {
       required: false
     },
     {
+      name: 'modulus-length',
+      description: 'RSA modulus length in bits',
+      descriptiveType: 'number',
+      defaultValue: 2048,
+      required: false
+    },
+    {
       name: 'private-export-type',
       description: 'Private key export type',
       descriptiveType: 'type',
@@ -134,6 +141,21 @@ export const ENCRYPT_COMMAND: Command = {
       defaultValue: 'base64',
       required: false
     }
+    ,
+    {
+      name: 'padding',
+      description: 'Padding to use for RSA (oaep|pkcs1)',
+      descriptiveType: 'string',
+      defaultValue: 'oaep',
+      required: false
+    },
+    {
+      name: 'oaep-hash',
+      description: 'OAEP hash algorithm (sha1|sha256|sha512)',
+      descriptiveType: 'string',
+      defaultValue: 'sha256',
+      required: false
+    }
   ]
 };
 
@@ -159,6 +181,21 @@ export const DECRYPT_COMMAND: Command = {
       description: 'Input encoding of the encrypted value',
       descriptiveType: 'encoding',
       defaultValue: 'base64',
+      required: false
+    }
+    ,
+    {
+      name: 'padding',
+      description: 'Padding to use for RSA (oaep|pkcs1)',
+      descriptiveType: 'string',
+      defaultValue: 'oaep',
+      required: false
+    },
+    {
+      name: 'oaep-hash',
+      description: 'OAEP hash algorithm (sha1|sha256|sha512)',
+      descriptiveType: 'string',
+      defaultValue: 'sha256',
       required: false
     }
   ]

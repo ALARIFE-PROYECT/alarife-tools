@@ -2,7 +2,7 @@ import { describe, it, beforeEach, afterEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { writeFileSync, existsSync, unlinkSync } from 'fs';
 import { join } from 'path';
-import { generateKeyPairSync, publicEncrypt } from 'crypto';
+import { generateKeyPairSync, publicEncrypt, constants } from 'crypto';
 import decryptHandler from '../../src/handlers/decrypt.js';
 import { mkdirSync } from 'node:fs';
 
@@ -23,7 +23,10 @@ const createEvent = (value: string, keyPath: string, options: Record<string, any
 });
 
 const encryptValue = (plaintext: string, encoding: BufferEncoding = 'base64'): string => {
-  const encrypted = publicEncrypt(rsaPublicKeyPem, Buffer.from(plaintext, 'utf-8'));
+  const encrypted = publicEncrypt(
+    { key: rsaPublicKeyPem, padding: constants.RSA_PKCS1_OAEP_PADDING, oaepHash: 'sha256' },
+    Buffer.from(plaintext, 'utf-8')
+  );
   return `{cipher}${encrypted.toString(encoding)}`;
 };
 
@@ -37,11 +40,17 @@ describe('decrypt handler', () => {
     const privateKeyPem = privateKey.export({ type: 'pkcs8', format: 'pem' }) as string;
 
     writeFileSync(PRIVATE_KEY_FILE, privateKeyPem, 'utf8');
+
+    const { privateKey: invalidPrivate } = generateKeyPairSync('ed25519');
+    const invalidPem = invalidPrivate.export({ type: 'pkcs8', format: 'pem' }) as string;
+    writeFileSync(INVALID_KEY_FILE, invalidPem, 'utf8');
   });
 
   afterEach(() => {
-    if (existsSync(PRIVATE_KEY_FILE)) {
-      unlinkSync(PRIVATE_KEY_FILE);
+    for (const file of [PRIVATE_KEY_FILE, INVALID_KEY_FILE]) {
+      if (existsSync(file)) {
+        unlinkSync(file);
+      }
     }
   });
 
@@ -62,7 +71,10 @@ describe('decrypt handler', () => {
   });
 
   it('should decrypt a value without {cipher} prefix', () => {
-    const encrypted = publicEncrypt(rsaPublicKeyPem, Buffer.from('raw-value', 'utf-8'));
+    const encrypted = publicEncrypt(
+      { key: rsaPublicKeyPem, padding: constants.RSA_PKCS1_OAEP_PADDING, oaepHash: 'sha256' },
+      Buffer.from('raw-value', 'utf-8')
+    );
     const base64 = encrypted.toString('base64');
     const logs: string[] = [];
     const originalLog = console.log;

@@ -7,11 +7,22 @@ const PRIVATE_KEY_NAME = 'private.pem';
 
 export default (event: CommandEvent, command: CommanderCommand, commandConfig: Command) => {
   const [path] = event.args;
-  const { keyType, privateExportType, publicExportType, keyFormat } = event.options;
+  const { keyType, privateExportType, publicExportType, keyFormat, modulusLength, namedCurve } = event.options;
 
   const fullPath = resolve(path, PRIVATE_KEY_NAME);
 
-  const { publicKey, privateKey } = generateKeyPairSync(keyType);
+  let pair: { publicKey: any; privateKey: any };
+
+  if (keyType === 'rsa') {
+    const bits = Number(modulusLength) || 2048;
+    pair = generateKeyPairSync('rsa', { modulusLength: bits });
+  } else if (keyType === 'ec' && namedCurve) {
+    pair = generateKeyPairSync('ec', { namedCurve });
+  } else {
+    pair = generateKeyPairSync(keyType as any);
+  }
+
+  const { publicKey, privateKey } = pair;
 
   const privateKeyPem = privateKey.export({
     type: privateExportType,
