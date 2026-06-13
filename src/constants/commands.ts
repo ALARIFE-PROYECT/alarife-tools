@@ -83,7 +83,7 @@ export const GENERATE_KEY_COMMAND: Command = {
       name: 'key-type',
       description: 'Type of key to generate',
       descriptiveType: 'key-type',
-      defaultValue: 'ed25519',
+      defaultValue: 'rsa',
       required: false
     },
     {
